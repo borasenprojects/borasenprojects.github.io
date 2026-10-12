@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بورا شن · مشاريع تنسيق الحدائق</title>
+<meta name="description" content="كتالوج مشاريع بورا شن لتنسيق الحدائق">
+<meta property="og:title" content="بورا شن · مشاريع تنسيق الحدائق">
+<meta property="og:image" content="sayfalar/01.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Jost:wght@400;500&family=Noto+Naskh+Arabic:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#17271E; --ink:#F3EFE4; --muted:#B9B29E; --brass:#C9A86A; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { height:100%; }
+  body { background:radial-gradient(ellipse at 50% 30%, #22372B 0%, var(--bg) 70%); color:var(--ink); font-family:'Jost', 'Noto Naskh Arabic', Arial, sans-serif; display:flex; flex-direction:column; min-height:100vh; overflow:hidden; }
+  header { display:flex; align-items:center; justify-content:space-between; padding:18px 28px; gap:16px; }
+  .brand { font-family:'Playfair Display', Georgia, serif; font-size:22px; letter-spacing:.5px; }
+  .brand i { color:var(--brass); }
+  .dl { color:var(--ink); text-decoration:none; font-size:14px; letter-spacing:2px; text-transform:uppercase; border:1px solid rgba(243,239,228,.35); padding:9px 16px; border-radius:2px; white-space:nowrap; }
+  .right { display:flex; align-items:center; gap:18px; }
+  .langs { display:flex; gap:12px; direction:ltr; }
+  .langs a { color:var(--muted); text-decoration:none; font-size:14px; letter-spacing:2px; }
+  .langs a.on, .langs a:hover { color:var(--brass); }
+  .dl:hover { border-color:var(--brass); color:var(--brass); }
+  main { direction:ltr; flex:1; display:flex; align-items:center; justify-content:center; padding:8px 72px; position:relative; min-height:0; }
+  #book { width:100%; max-width:min(1500px, calc((100vh - 170px) * 16 / 9)); }
+  .page { background:#F3EFE4; box-shadow:0 20px 50px rgba(0,0,0,.45); }
+  .page img { width:100%; height:100%; display:block; object-fit:cover; user-select:none; -webkit-user-drag:none; }
+  .nav { position:absolute; top:50%; transform:translateY(-50%); width:48px; height:48px; border-radius:50%; border:1px solid rgba(243,239,228,.3); background:rgba(23,39,30,.55); color:var(--ink); font-size:22px; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:5; }
+  .nav:hover { border-color:var(--brass); color:var(--brass); }
+  .prev { left:14px; } .next { right:14px; }
+  footer { display:flex; align-items:center; justify-content:center; gap:20px; padding:14px 16px 20px; font-size:14px; color:var(--muted); letter-spacing:2px; }
+  footer button { background:none; border:none; color:var(--muted); font:inherit; letter-spacing:2px; text-transform:uppercase; cursor:pointer; }
+  footer button:hover { color:var(--brass); }
+  #count { color:var(--ink); min-width:70px; text-align:center; direction:ltr; unicode-bidi:isolate; }
+  .hint { position:absolute; bottom:4px; left:0; right:0; text-align:center; font-size:12px; color:var(--muted); opacity:.8; pointer-events:none; transition:opacity .6s; }
+  @media (max-width:700px) {
+    header { padding:12px 16px; } .brand { font-size:17px; } .dl { font-size:12px; padding:7px 10px; letter-spacing:1px; } .right { gap:10px; } .langs { gap:8px; } .langs a { font-size:12px; letter-spacing:1px; }
+    main { padding:8px 16px; } .nav { display:none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">بورا شن · <i>مشاريع تنسيق الحدائق</i></div>
+  <div class="right"><nav class="langs"><a href="../tr/">TR</a> <a href="../en/">EN</a> <a href="../ar/" class="on">AR</a></nav></div>
+</header>
+<main>
+  <button class="nav prev" id="prev" aria-label="الصفحة السابقة">‹</button>
+  <div id="book"></div>
+  <button class="nav next" id="next" aria-label="الصفحة التالية">›</button>
+  <div class="hint" id="hint">اسحب زاوية الصفحة أو استخدم الأسهم لتقليب الصفحات</div>
+</main>
+<footer>
+  <button id="first">العودة إلى البداية</button>
+  <span id="count">1 / 43</span>
+  <button id="fs">ملء الشاشة</button>
+</footer>
+<script src="../page-flip.browser.js"></script>
+<script>
+  const N = 43;
+  const book = document.getElementById('book');
+  for (let i = 1; i <= N; i++) {
+    const d = document.createElement('div');
+    d.className = 'page';
+    const img = document.createElement('img');
+    img.src = 'sayfalar/' + String(i).padStart(2, '0') + '.jpg';
+    img.alt = 'صفحة ' + i;
+    img.loading = i <= 3 ? 'eager' : 'lazy';
+    d.appendChild(img);
+    book.appendChild(d);
+  }
+  const pf = new St.PageFlip(book, {
+    width: 1600, height: 900, size: 'stretch',
+    minWidth: Math.max(280, Math.ceil(book.clientWidth / 2) + 2), maxWidth: 1600, minHeight: 158, maxHeight: 900,
+    usePortrait: true, showCover: false, maxShadowOpacity: 0.35,
+    mobileScrollSupport: false, flippingTime: 800
+  });
+  pf.loadFromHTML(document.querySelectorAll('.page'));
+  const count = document.getElementById('count');
+  const hint = document.getElementById('hint');
+  pf.on('flip', e => { count.textContent = (e.data + 1) + ' / ' + N; hint.style.opacity = 0; });
+  document.getElementById('prev').onclick = () => pf.flipPrev();
+  document.getElementById('next').onclick = () => pf.flipNext();
+  document.getElementById('first').onclick = () => pf.turnToPage(0) || (count.textContent = '1 / ' + N);
+  document.getElementById('fs').onclick = () => {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  };
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') pf.flipNext();
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') pf.flipPrev();
+  });
+  setTimeout(() => { hint.style.opacity = 0; }, 6000);
+</script>
+</body>
+</html>
